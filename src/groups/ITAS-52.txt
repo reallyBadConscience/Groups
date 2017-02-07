@@ -1,0 +1,17 @@
+    String[] students = { // ITAS-52
+        "Aydogan, Kerim",
+        "Beluli, Kevin",
+        "Dahmen, Lukas",
+        "Dickmeis, Sebastian",
+        "Drescher, Jonas",
+        "Frohn, Domenik",
+        "Geiersbach, Tobias",
+        "Gök, Ramazan",
+        "Hänel, Marius",
+        "Okanovic, Nermin",
+        "Scheidt Olarte, Renso",
+        "Stommen, Jonas",
+        "Wenders, Fabian",
+        "Wendt, Dennis",
+        "Wlasak, Kevin"
+    };

@@ -1,0 +1,18 @@
+    String[] students = {  // ITAS-51
+	"Bergen, Nino",
+	"Breuer, Luis",
+	"Costantini, Lars",
+	"Dennigmann, Jens",
+	"Fritzen, Nadine",
+	"Gecer, Yannis",
+	"Hammers, Fabian",
+	"Kirsch, Luc-Phillip",
+	"Koch, Andreas",
+	"Krieger, Sergej",
+	"Merz, Andreas",
+	"Niewoehner, Yannik",
+	"Özar, Jenna",
+	"Podobinski, Jeremy",
+	"Reiners, Tim",
+	"Topham, Marius"
+    };
