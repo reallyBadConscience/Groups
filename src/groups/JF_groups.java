@@ -1,30 +1,15 @@
 package groups;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Vector;
+import java.util.*;
+import java.io.*;
+import java.util.logging.*;
+import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
 
 public class JF_groups extends javax.swing.JFrame {
 
-    String[] students = {  // ITAS-51
-	"Bergen, Nino",
-	"Breuer, Luis",
-	"Costantini, Lars",
-	"Dennigmann, Jens",
-	"Fritzen, Nadine",
-//	"Gecer, Yannis",
-	"Hammers, Fabian",
-	"Kirsch, Luc-Phillip",
-	"Koch, Andreas",
-	"Krieger, Sergej",
-	"Merz, Andreas",
-	"Niewoehner, Yannik",
-	"Özar, Jenna",
-	"Podobinski, Jeremy",
-	"Reiners, Tim",
-	"Topham, Marius"
-    };
+    List<String> students = new ArrayList<String>();
 
     private javax.swing.JScrollPane jspGroups;
     private javax.swing.JTable tblGroups;
@@ -40,20 +25,20 @@ public class JF_groups extends javax.swing.JFrame {
         getContentPane().add(jspGroups);
 
         this.setBounds(100, 100, 300, 200);
-        this.setTitle(Integer.toString(students.length));
+        this.setTitle("Gruppenaufteilung");
     }
 
-    private void shuffle(String[] stra) {
+    private void shuffle(List<String> strL) {
         Random zzg = new Random();
         int foo, bar;
         String tmp;
 
-        for (int i = 0; i < 2 * stra.length; i++) {
-            foo = zzg.nextInt(stra.length);
-            bar = zzg.nextInt(stra.length);
-            tmp = stra[foo];
-            stra[foo] = stra[bar];
-            stra[bar] = tmp;
+        for (int i = 0; i < 2 * strL.size(); i++) {
+            foo = zzg.nextInt(strL.size());
+            bar = zzg.nextInt(strL.size());
+            tmp = strL.get(foo);
+            strL.set(foo, strL.get(bar));
+            strL.set(bar, tmp);
         }
     }
 
@@ -64,6 +49,7 @@ public class JF_groups extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtNoMembersPerGroup = new javax.swing.JTextField();
         btnRandom = new javax.swing.JButton();
+        btnRandom1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -76,7 +62,7 @@ public class JF_groups extends javax.swing.JFrame {
         txtNoMembersPerGroup.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNoMembersPerGroup.setText("3");
         getContentPane().add(txtNoMembersPerGroup);
-        txtNoMembersPerGroup.setBounds(237, 44, 39, 22);
+        txtNoMembersPerGroup.setBounds(237, 44, 39, 20);
 
         btnRandom.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnRandom.setText("Random!");
@@ -86,59 +72,51 @@ public class JF_groups extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnRandom);
-        btnRandom.setBounds(40, 10, 128, 25);
+        btnRandom.setBounds(40, 70, 128, 25);
+
+        btnRandom1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnRandom1.setText("Gruppe laden");
+        btnRandom1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRandom1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnRandom1);
+        btnRandom1.setBounds(40, 10, 128, 25);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     private void btnRandomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRandomActionPerformed
-
-        int noGroups = Integer.parseInt(txtNoMembersPerGroup.getText());
-        int membersPerGroup = students.length / noGroups;
-        // compensation of unequal grouplength
-        if (students.length % noGroups > 0) {
-            membersPerGroup++;
+        if (students.size() > 0) {
+            createTable(txtNoMembersPerGroup.getText(), false);
+        } else {
+            warningMessage("Bitte eine Gruppe laden.");
         }
-
-        shuffle(students);
-
-        String[][] membership = new String[membersPerGroup][noGroups];
-
-        // initialize gStudents-array
-        for (int group = 0; group < noGroups; group++) {
-            for (int mCount = 0; mCount < membersPerGroup; mCount++) {
-                membership[mCount][group] = "";
-            }
-        }
-
-        // fill gStudent-array with names
-        for (int mCount = 0, i = 0; mCount < membersPerGroup && i < students.length; mCount++) {
-            for (int group = 0; group < noGroups && i < students.length; group++) {
-                membership[mCount][group] = students[i++];
-            }
-        }
-
-        // and create simple header numbering
-        String[] header = new String[noGroups];
-        for (int i = 0; i < noGroups; i++) {
-            header[i] = Integer.toString(i + 1);
-        }
-
-        // fill JTable
-        tblGroups.setModel(new javax.swing.table.DefaultTableModel(
-                membership, header
-        ));
-
-        // quick and dirty...
-        int tableWidth = noGroups * 150;
-        int tableHeight = 50 + membersPerGroup * 20;
-        jspGroups.setBounds(40, 86, tableWidth, tableHeight);
-        this.setBounds(this.getBounds().x, this.getBounds().y, 100 + tableWidth, 200 + tableHeight);
-       
     }//GEN-LAST:event_btnRandomActionPerformed
 
-    public static void main(String args[]) {
+    private void btnRandom1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRandom1ActionPerformed
+        //Textfile mit Namensliste auswählen
+        JFileChooser chooser = new JFileChooser();
+        // Dialog zum Oeffnen von Dateien anzeigen
+        chooser.showDialog(null, "Gruppe laden");
+
+        try {
+            File myGroup_File = chooser.getSelectedFile();
+            if (myGroup_File==null ){
+                warningMessage("Keine Datei ausgewählt.");                
+            }else if (myGroup_File.getName().contains(".txt")) {
+                this.readStudents(myGroup_File);
+            }else {
+                warningMessage("Bitte wählen Sie eine .txt Datei aus.");
+            }
+        } catch (IOException ex) {
+             Logger.getLogger(JF_groups.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnRandom1ActionPerformed
+
+    public static void main(String args[]) throws IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -162,18 +140,147 @@ public class JF_groups extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JF_groups().setVisible(true);
+                JF_groups myGroups = new JF_groups();
+                myGroups.setVisible(true);
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRandom;
+    private javax.swing.JButton btnRandom1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField txtNoMembersPerGroup;
     // End of variables declaration//GEN-END:variables
+
+    private void createTable(String text, boolean first_load) {
+        Object[][] membership;
+        String[] header;
+
+        int noGroups = Integer.parseInt(text);
+        int membersPerGroup = students.size() / noGroups;
+        // compensation of unequal grouplength
+        if (students.size() % noGroups > 0) {
+            membersPerGroup++;
+        }
+
+        //Nur bei ersten Laden der Schülergruppe anwesend oder nicht mit einbauen
+        if (first_load) {
+            header = new String[]{"Schüler", "anwesend"};
+            membership = new Object[membersPerGroup][2];
+            // initialize gStudents-array
+            for (int mCount = 0, i = 0; mCount < membersPerGroup && i < students.size(); mCount++) {
+                membership[mCount][0] = students.get(i++);
+                membership[mCount][1] = true;
+            }
+            
+                 DefaultTableModel model = new DefaultTableModel(membership, header);
+            //Anwesend Klick beobachten
+            model.addTableModelListener(new TableModelListener() {
+                public void tableChanged(TableModelEvent tme) {
+                    if (tme.getType() == TableModelEvent.UPDATE) {
+                        //anwesend abgewählt
+                        if (model.getValueAt(tme.getFirstRow(), tme.getColumn()).toString().equals("false")) {
+                            int result = JOptionPane.showConfirmDialog(null, "Möchten Sie den Schüler " + students.get(tme.getFirstRow()) + " aus der Liste entfernen?", "TITEL", JOptionPane.YES_NO_CANCEL_OPTION);
+                            if (result == JOptionPane.YES_OPTION) {
+                                students.remove(tme.getFirstRow());
+                                createTable("1", true);
+                            } 
+                        }
+
+                    }
+                }
+
+            });
+
+            tblGroups = new JTable(model) {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public Class getColumnClass(int column) {
+                    switch (column) {
+                        case 0:
+                            return String.class;
+                        default:
+                            return Boolean.class;
+                    }
+                }
+
+            };
+
+
+        } else {
+            shuffle(students);
+            membership = new Object[membersPerGroup][noGroups];
+            // initialize gStudents-array
+            for (int group = 0; group < noGroups; group++) {
+                for (int mCount = 0; mCount < membersPerGroup; mCount++) {
+                    membership[mCount][group] = "";
+                }
+            }
+            // fill gStudent-array with names
+            for (int mCount = 0, i = 0; mCount < membersPerGroup && i < students.size(); mCount++) {
+                for (int group = 0; group < noGroups && i < students.size(); group++) {
+                    membership[mCount][group] = students.get(i++);
+                }
+            }
+
+            // and create simple header numbering
+            header = new String[noGroups];
+            for (int i = 0; i < noGroups; i++) {
+                header[i] = Integer.toString(i + 1);
+            }
+            
+            
+            tblGroups = new JTable();
+            tblGroups.setModel(new javax.swing.table.DefaultTableModel(
+                    membership, header
+            ));
+        }
+
+   
+        // quick and dirty...
+        int tableWidth = noGroups * 150;
+        int tableHeight = 50 + membersPerGroup * 20;
+        jspGroups.setBounds(40, 110, tableWidth, tableHeight);
+        this.setBounds(this.getBounds().x, this.getBounds().y, 100 + tableWidth, 200 + tableHeight);
+        jspGroups.setViewportView(tblGroups);
+        this.repaint();
+    }
+
+    //Warnungen
+    private void warningMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    private void readStudents(File group_file) throws FileNotFoundException, IOException {
+        students.clear();
+
+        FileReader fr = new FileReader(group_file);
+        BufferedReader br = new BufferedReader(fr);
+        String zeile_1, zeile = br.readLine();
+
+        while (zeile != null) {
+            if (zeile.contains("\"")) {
+                zeile_1 = zeile.substring(zeile.indexOf("\"") + 1, zeile.lastIndexOf("\""));
+                students.add(zeile_1);
+            }
+            zeile = br.readLine();
+        }
+
+        if (students.size() < 1) {
+            warningMessage("Die Textdatei enthielt keine Schüler. Bitte laden Sie eine andere Datei.");
+        } else {
+            createTable("1", true);
+        }
+        br.close();
+
+    }
 }
