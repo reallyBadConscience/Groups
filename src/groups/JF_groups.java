@@ -163,7 +163,8 @@ public class JF_groups extends javax.swing.JFrame {
     private void createTable(String text, boolean first_load) {
         Object[][] membership;
         String[] header;
-
+        int table_width_factor=1;
+        
         int noGroups = Integer.parseInt(text);
         int membersPerGroup = students.size() / noGroups;
         // compensation of unequal grouplength
@@ -173,6 +174,7 @@ public class JF_groups extends javax.swing.JFrame {
 
         //Nur bei ersten Laden der Schülergruppe anwesend oder nicht mit einbauen
         if (first_load) {
+            table_width_factor=2;
             header = new String[]{"Schüler", "anwesend"};
             membership = new Object[membersPerGroup][2];
             // initialize gStudents-array
@@ -248,7 +250,7 @@ public class JF_groups extends javax.swing.JFrame {
         // quick and dirty...
         int tableWidth = noGroups * 150;
         int tableHeight = 50 + membersPerGroup * 20;
-        jspGroups.setBounds(40, 110, tableWidth, tableHeight);
+        jspGroups.setBounds(40, 110, tableWidth*table_width_factor, tableHeight);
         this.setBounds(this.getBounds().x, this.getBounds().y, 100 + tableWidth, 200 + tableHeight);
         jspGroups.setViewportView(tblGroups);
         this.repaint();
