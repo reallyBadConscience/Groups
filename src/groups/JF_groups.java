@@ -188,7 +188,7 @@ public class JF_groups extends javax.swing.JFrame {
                     if (tme.getType() == TableModelEvent.UPDATE) {
                         //anwesend abgewählt
                         if (model.getValueAt(tme.getFirstRow(), tme.getColumn()).toString().equals("false")) {
-                            int result = JOptionPane.showConfirmDialog(null, "Möchten Sie den Schüler " + students.get(tme.getFirstRow()) + " aus der Liste entfernen?", "TITEL", JOptionPane.YES_NO_CANCEL_OPTION);
+                            int result = JOptionPane.showConfirmDialog(null, "Möchten Sie den Schüler " + students.get(tme.getFirstRow()) + " aus der Liste entfernen?", "Bestätigen", JOptionPane.YES_NO_CANCEL_OPTION);
                             if (result == JOptionPane.YES_OPTION) {
                                 students.remove(tme.getFirstRow());
                                 createTable("1", true);
@@ -244,7 +244,6 @@ public class JF_groups extends javax.swing.JFrame {
                     membership, header
             ));
         }
-
    
         // quick and dirty...
         int tableWidth = noGroups * 150;
