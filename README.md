@@ -7,8 +7,7 @@ Tool to make up spontanous workgroups based on studentlists. No. students per gr
 
 
 Todo:
-- solid data representation for multiple studentlists (courses).
-- GUI selection of studentlist
-- handling of not present students (nps :-) (boolean tags in JTable???)
+- GUI beautification...
+- MWP design?!
 ....
 - translation to PHP o.a. ???
