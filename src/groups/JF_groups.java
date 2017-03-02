@@ -62,7 +62,7 @@ public class JF_groups extends javax.swing.JFrame {
         txtNoMembersPerGroup.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNoMembersPerGroup.setText("3");
         getContentPane().add(txtNoMembersPerGroup);
-        txtNoMembersPerGroup.setBounds(237, 44, 39, 20);
+        txtNoMembersPerGroup.setBounds(240, 40, 39, 30);
 
         btnRandom.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnRandom.setText("Random!");
@@ -72,7 +72,7 @@ public class JF_groups extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnRandom);
-        btnRandom.setBounds(40, 70, 128, 25);
+        btnRandom.setBounds(40, 80, 128, 25);
 
         btnRandom1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnRandom1.setText("Gruppe laden");
