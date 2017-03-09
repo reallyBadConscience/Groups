@@ -115,6 +115,7 @@ public class JF_groups extends javax.swing.JFrame {
             Logger.getLogger(JF_groups.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NumberFormatException ex) {
             Logger.getLogger(JF_groups.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }//GEN-LAST:event_btnRandom1ActionPerformed
 
@@ -165,9 +166,14 @@ public class JF_groups extends javax.swing.JFrame {
     private void createTable(String text, boolean first_load) {
         Object[][] membership;
         String[] header;
-        int table_width_factor = 1;
-
-        int noGroups = Integer.parseInt(text);
+        int table_width_factor = 2;
+        int noGroups = 1;
+        try {
+            int parsedText = Integer.parseInt(text);
+            noGroups = (parsedText > 0) ? parsedText : 1;
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(JF_groups.class.getName()).log(Level.WARNING, null, ex);
+        }
         int membersPerGroup = students.size() / noGroups;
         // compensation of unequal grouplength
         if (students.size() % noGroups > 0) {
