@@ -99,6 +99,8 @@ public class JF_groups extends javax.swing.JFrame {
     private void btnRandom1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRandom1ActionPerformed
         //Textfile mit Namensliste auswählen
         JFileChooser chooser = new JFileChooser();
+        // basedir des filechoosers einstellen
+        chooser.setCurrentDirectory(new File("data"));
         // Dialog zum Oeffnen von Dateien anzeigen
         chooser.showDialog(null, "Gruppe laden");
 

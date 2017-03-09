@@ -12,9 +12,8 @@ o GUI beautification...
   - checkboxes to large for JTable (or JTable to small)
   - display of group-name somewhere (filename -> titlebar?)
   - absent students should not be deleted but disabled (latecomers!)
-  - open-file-dialog should start in data-folder
   - "groupsize" textbox -> picker, dropdownbox, o.a.
   
-o MWP design?!
+o MVP design?!
 ....
 o translation to PHP o.a. ???
