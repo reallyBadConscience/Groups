@@ -113,6 +113,8 @@ public class JF_groups extends javax.swing.JFrame {
             }
         } catch (IOException ex) {
             Logger.getLogger(JF_groups.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(JF_groups.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRandom1ActionPerformed
 
